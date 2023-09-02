@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "meta-learn-qaoa"
+version = "0.1.0"
+description = ""
+authors = ["Snir Bachar <snir@quantum-machines.co>"]
+readme = "README.md"
+packages = [{include = "meta_learn_qaoa"}]
+
+[tool.poetry.dependencies]
+python = "<3.13,>=3.8"
+qiskit = "^0.44.0"
+qpth = {path = "qpth"}
+learn2learn = "^0.2.0"
+pyqt5 = "^5.15.9"
+matplotlib = "^3.7.2"
+qiskit-aer = "^0.12.2"
+torch = "<2"
+numba = "^0.57.1"
+networkx = "^3.1"
+rich = "^13.5.2"
+ipywidgets = "^8.1.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+mypi = "^0.0.3"
+ipykernel = "^6.25.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

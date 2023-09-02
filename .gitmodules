@@ -1,0 +1,3 @@
+[submodule "qpth"]
+	path = qpth
+	url = git@github.com:locuslab/qpth.git
