@@ -97,16 +97,6 @@ Accelerating QAOA
 
 \begin_layout Author
 Snir Bachar
-\begin_inset Argument 1
-status open
-
-\begin_layout Plain Layout
-rvt
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Email
@@ -117,18 +107,6 @@ snir.bachar@campus.technion.ac.il
 Computer Science dept., Technion, 
 \emph on
 Haifa
-\emph default
-
-\begin_inset Argument 1
-status collapsed
-
-\begin_layout Plain Layout
-rvt
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Abstract
@@ -140,13 +118,8 @@ The Quantum Approximate Optimization Algorithm (QAOA) is a promising quantum
  Traditional methods for parameter optimization require a hybrid model of
  a Quantum Computer and a Classic Computer, which is not an easy thing to
  fetch this days.
- In this study, we introduce a novel approach to predict the optimal parameters
- for QAOA circuits using a neural network model that combines the spatial
- feature extraction capabilities of Convolutional Neural Networks (CNNs),
- with the sequence processing strengths of Long Short-Term Memory (LSTM)
- layers.
- The LSTM integration allows our model to accommodate quantum circuits of
- varying sizes, making it a versatile tool for diverse quantum tasks.
+ In this study, we train a CNN model to predict the optimal parameters for
+ QAOA circuits.
  Our results indicate that by predicting near-optimal parameters using the
  proposed model, we can significantly accelerate the QAOA process while
  maintaining, or even enhancing, solution quality.
@@ -175,16 +148,14 @@ The Quantum Approximate Optimization Algorithm (QAOA) has emerged as a pivotal
 As a subset of variational quantum algorithms (VQAs), QAOA offers a heuristic
  approach to tackle combinatorial optimization problems, which have historically
  been computationally challenging.
- A distinguishing feature of VQAs, including QAOA, is their reliance on
- shallow quantum circuits, rendering them relatively noise-resilient.
- The efficacy of QAOA is intrinsically tied to the precise selection of
- its variational parameters.
+ As an optimization algorithm the efficacy of QAOA is intrinsically tied
+ to the precise selection of its parameters.
  
 \end_layout
 
 \begin_layout Standard
 While the optimization of these parameters is paramount, the traditional
- methodologies often necessitate the deployment of hybrid Quantum Computers,
+ methodologies often necessitate frequent interaction with Quantum Computers,
  a resource that remains challenging to access widely.
  Each optimization iteration in QAOA can involve numerous circuit executions,
  underscoring the need to minimize the number of such iterations.
@@ -192,15 +163,12 @@ While the optimization of these parameters is paramount, the traditional
 \end_layout
 
 \begin_layout Standard
-In light of these challenges, this paper introduces a novel approach leveraging
+In light of these challenges, this study introduces an approach leveraging
  classical machine learning techniques.
  By integrating the spatial feature extraction capabilities of Convolutional
- Neural Networks (CNNs), exemplified by the LeNet architecture, with the
- sequence processing prowess of Long Short-Term Memory (LSTM) layers, we
- propose a model capable of predicting optimal QAOA parameters.
- This hybrid neural network model is designed to accommodate quantum circuits
- of varying sizes, offering a versatile solution for a range of quantum
- tasks.
+ Neural Networks (CNNs), exemplified by the LeNet architecture, we propose
+ a model capable of predicting optimal QAOA parameters.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -218,8 +186,8 @@ The contributions of this study are manifold:
 
 \begin_layout Enumerate
 We demonstrate the feasibility of predicting QAOA's variational parameters
- using a hybrid CNN-LSTM model for problems like MaxCut, without necessitating
- additional quantum computations.
+ using a CNN model for problems like MaxCut, without necessitating additional
+ quantum computations.
  
 \end_layout
 
@@ -458,15 +426,7 @@ Repeated executions provide a distribution of cuts, from which the best
 \end_layout
 
 \begin_layout Section
-Related Work
-\end_layout
-
-\begin_layout Subsection
-Iterative-Free QAOA
-\end_layout
-
-\begin_layout Section
-Proposed Hybrid Neural Network Model
+Proposed Neural Network Model
 \end_layout
 
 \begin_layout Standard

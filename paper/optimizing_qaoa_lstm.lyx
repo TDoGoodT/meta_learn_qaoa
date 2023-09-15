@@ -97,16 +97,6 @@ Accelerating QAOA
 
 \begin_layout Author
 Snir Bachar
-\begin_inset Argument 1
-status open
-
-\begin_layout Plain Layout
-rvt
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Email
@@ -114,21 +104,9 @@ snir.bachar@campus.technion.ac.il
 \end_layout
 
 \begin_layout Address
-Computer Science dept., Technion, 
+Technion, 
 \emph on
 Haifa
-\emph default
-
-\begin_inset Argument 1
-status collapsed
-
-\begin_layout Plain Layout
-rvt
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Abstract
@@ -280,8 +258,11 @@ literal "false"
 
 \end_inset
 
- is a quantum computing paradigm that harnesses the adiabatic theorem of
- quantum mechanics.
+ is a quantum computin
+\end_layout
+
+\begin_layout Standard
+g paradigm that harnesses the adiabatic theorem of quantum mechanics.
  The core principle behind AQC is the slow evolution of a quantum system.
  Initially, the system is placed in the ground state of a simple Hamiltonian,
  for which the ground state is known.
