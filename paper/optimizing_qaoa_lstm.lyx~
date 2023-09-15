@@ -1,0 +1,616 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass elsarticle
+\begin_preamble
+% specify here the journal
+% \journal{Example: Nuclear Physics B}
+
+% use this if you need line numbers
+%\usepackage{lineno}
+\end_preamble
+\use_default_options false
+\begin_modules
+theorems-std
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures false
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command bibtex
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 2
+\paperpagestyle headings
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout BeginFrontmatter
+
+\end_layout
+
+\begin_layout Title
+Accelerating QAOA
+\end_layout
+
+\begin_layout Author
+Snir Bachar
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+rvt
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Email
+snir.bachar@campus.technion.ac.il
+\end_layout
+
+\begin_layout Address
+Computer Science dept., Technion, 
+\emph on
+Haifa
+\emph default
+
+\begin_inset Argument 1
+status collapsed
+
+\begin_layout Plain Layout
+rvt
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+
+\size footnotesize
+The Quantum Approximate Optimization Algorithm (QAOA) is a promising quantum
+ algorithm for solving combinatorial optimization problems.
+ The main aspect of QAOA's is the selection of its variational parameters.
+ Traditional methods for parameter optimization require a hybrid model of
+ a Quantum Computer and a Classic Computer, which is not an easy thing to
+ fetch this days.
+ In this study, we introduce a novel approach to predict the optimal parameters
+ for QAOA circuits using a neural network model that combines the spatial
+ feature extraction capabilities of Convolutional Neural Networks (CNNs),
+ with the sequence processing strengths of Long Short-Term Memory (LSTM)
+ layers.
+ The LSTM integration allows our model to accommodate quantum circuits of
+ varying sizes, making it a versatile tool for diverse quantum tasks.
+ Our results indicate that by predicting near-optimal parameters using the
+ proposed model, we can significantly accelerate the QAOA process while
+ maintaining, or even enhancing, solution quality.
+ This research not only underscores the potential of classical-quantum hybrid
+ solutions in quantum computing but also offers a scalable approach to optimize
+ quantum circuits from a computer science perspective.
+\end_layout
+
+\begin_layout EndFrontmatter
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+The Quantum Approximate Optimization Algorithm (QAOA) has emerged as a pivotal
+ quantum algorithm, especially in the noisy intermediate-scale quantum (NISQ)
+ era, characterized by limited number qubits and shallow circuits with high
+ approximation ratio.
+ As a subset of variational quantum algorithms (VQAs), QAOA offers a heuristic
+ approach to tackle combinatorial optimization problems, which have historically
+ been computationally challenging.
+ A distinguishing feature of VQAs, including QAOA, is their reliance on
+ shallow quantum circuits, rendering them relatively noise-resilient.
+ The efficacy of QAOA is intrinsically tied to the precise selection of
+ its variational parameters.
+ 
+\end_layout
+
+\begin_layout Standard
+While the optimization of these parameters is paramount, the traditional
+ methodologies often necessitate the deployment of hybrid Quantum Computers,
+ a resource that remains challenging to access widely.
+ Each optimization iteration in QAOA can involve numerous circuit executions,
+ underscoring the need to minimize the number of such iterations.
+ 
+\end_layout
+
+\begin_layout Standard
+In light of these challenges, this paper introduces an approach leveraging
+ classical machine learning techniques.
+ By integrating the spatial feature extraction capabilities of Convolutional
+ Neural Networks (CNNs), exemplified by the LeNet architecture, we propose
+ a model capable of predicting optimal QAOA parameters.
+\end_layout
+
+\begin_layout Standard
+Our primary objective is to diminish the number of QAOA iterations without
+ compromising on the algorithm's performance or incurring additional quantum
+ circuit executions.
+ By utilizing a neural network to predict initialization parameters tailored
+ to each problem instance, we aim to expedite the QAOA process, enhancing
+ both its efficiency and solution accuracy.
+\end_layout
+
+\begin_layout Standard
+The contributions of this study are manifold:
+\end_layout
+
+\begin_layout Enumerate
+We demonstrate the feasibility of predicting QAOA's variational parameters
+ using a CNN model for problems like MaxCut, without necessitating additional
+ quantum computations.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Empirical evaluations reveal that our proposed model surpasses existing
+ QAOA initialization techniques in terms of solution quality and convergence
+ rate.
+ 
+\end_layout
+
+\begin_layout Enumerate
+The approach potentially obviates the need for further quantum circuit optimizat
+ion, leading to significant computational savings.
+ 
+\end_layout
+
+\begin_layout Standard
+The remainder of this paper is structured as follows: 
+\end_layout
+
+\begin_layout Standard
+Section 2 offers a comprehensive background on QAOA, detailing its algorithmic
+ structure and its relevance in the context of the MaxCut problem.
+ 
+\end_layout
+
+\begin_layout Standard
+Section 3 delineates our proposed hybrid neural network model and its training.
+ 
+\end_layout
+
+\begin_layout Standard
+In Section 4, we benchmark our approach against existing initialization
+ techniques, providing a comparative analysis of their performances.
+ 
+\end_layout
+
+\begin_layout Standard
+Finally, Section 5 delves into the implications of our method in the broader
+ landscape of the NISQ era.
+\end_layout
+
+\begin_layout Section
+Quantum Approximate Optimization Algorithm
+\end_layout
+
+\begin_layout Standard
+The Quantum Approximate Optimization Algorithm (QAOA) has emerged as a pivotal
+ tool in the quantum computing domain, especially for addressing combinatorial
+ optimization problems.
+ To understand its significance and operation, it's essential to delve into
+ its roots in adiabatic quantum computation and its specific design for
+ problems like MaxCut.
+\end_layout
+
+\begin_layout Subsection
+Adiabatic Quantum Computation
+\end_layout
+
+\begin_layout Standard
+Adiabatic Quantum Computation (AQC)
+\begin_inset CommandInset citation
+LatexCommand citep
+key "farhi2000quantum"
+literal "false"
+
+\end_inset
+
+ is a quantum computing paradigm that harnesses the adiabatic theorem of
+ quantum mechanics.
+ The core principle behind AQC is the slow evolution of a quantum system.
+ Initially, the system is placed in the ground state of a simple Hamiltonian,
+ for which the ground state is known.
+ The Hamiltonian is then adiabatically evolved into a more complex one,
+ corresponding to the problem in question.
+ If this evolution is sufficiently slow, the system remains in the ground
+ state, thus providing the solution to the problem.
+\end_layout
+
+\begin_layout Standard
+The efficiency of AQC is determined by the gap between the ground state
+ and the first excited state of the Hamiltonian.
+ A larger gap ensures a faster adiabatic evolution, leading to quicker problem
+ solutions.
+ AQC has been explored for various optimization problems, laying the groundwork
+ for the development of algorithms like QAOA.
+\end_layout
+
+\begin_layout Subsection
+The Quantum Approximate Optimization Algorithm 
+\end_layout
+
+\begin_layout Standard
+The Quantum Approximate Optimization Algorithm (QAOA) 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "farhi2014quantum"
+literal "false"
+
+\end_inset
+
+ can be viewed as a quantum circuit-based approximation to AQC.
+ 
+\end_layout
+
+\begin_layout Standard
+Instead of a continuous adiabatic evolution, QAOA employs a discrete set
+ of unitary transformations, parameterized by angles, to approximate the
+ adiabatic pathway.
+\end_layout
+
+\begin_layout Standard
+The QAOA circuit is characterized by its depth, denoted by 
+\begin_inset Formula $p$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+For each layer, two sets of gates are applied: one corresponding to the
+ problem Hamiltonian (often denoted by 
+\begin_inset Formula $H_{P}$
+\end_inset
+
+) and the other to a mixing Hamiltonian (usually denoted by 
+\begin_inset Formula $H_{M}$
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Standard
+The angles parameterizing these gates, typically represented as 
+\begin_inset Formula $\beta$
+\end_inset
+
+ and 
+\begin_inset Formula $\gamma$
+\end_inset
+
+, are optimized classically to minimize the expectation value of the problem
+ Hamiltonian.
+\end_layout
+
+\begin_layout Standard
+The strength of QAOA lies in its hybrid nature, combining quantum circuits
+ for generating states and classical routines for parameter optimization.
+ 
+\end_layout
+
+\begin_layout Standard
+This synergy allows QAOA to be particularly effective on NISQ devices, which
+ have limited qubits and are susceptible to noise.
+\end_layout
+
+\begin_layout Subsection
+Solving MaxCut with QAOA
+\end_layout
+
+\begin_layout Standard
+MaxCut is a classical combinatorial optimization problem where the objective
+ is to partition the nodes of a graph into two sets, maximizing the number
+ of edges that cross between the sets.
+ 
+\end_layout
+
+\begin_layout Standard
+Given its NP-hard nature, finding exact solutions for large graphs is computatio
+nally challenging.
+\end_layout
+
+\begin_layout Standard
+QAOA offers a quantum heuristic for the MaxCut problem.
+ 
+\end_layout
+
+\begin_layout Standard
+The problem Hamiltonian 
+\begin_inset Formula $H_{P}$
+\end_inset
+
+ for MaxCut is constructed such that its ground state corresponds to the
+ optimal solution of the problem.
+ 
+\end_layout
+
+\begin_layout Standard
+The mixing Hamiltonian 
+\begin_inset Formula $H_{M}$
+\end_inset
+
+ is typically chosen to be the transverse field, promoting quantum fluctuations
+ that help explore the solution space.
+\end_layout
+
+\begin_layout Standard
+By preparing a superposition of all possible cuts and evolving this state
+ under the influence of 
+\begin_inset Formula $H_{P}$
+\end_inset
+
+ and 
+\begin_inset Formula $H_{M}$
+\end_inset
+
+, QAOA navigates the solution landscape.
+ The variational parameters 
+\begin_inset Formula $\beta$
+\end_inset
+
+ and 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ are then optimized to maximize the number of cut edges, using classical
+ optimization routines.
+\end_layout
+
+\begin_layout Standard
+Once the optimal parameters are found, the QAOA circuit is executed on a
+ quantum processor, and measurements yield a cut.
+ 
+\end_layout
+
+\begin_layout Standard
+Repeated executions provide a distribution of cuts, from which the best
+ one can be selected.
+\end_layout
+
+\begin_layout Section
+Related Work
+\end_layout
+
+\begin_layout Subsection
+Iterative-Free QAOA
+\end_layout
+
+\begin_layout Section
+Proposed Hybrid Neural Network Model
+\end_layout
+
+\begin_layout Standard
+The optimization of the Quantum Approximate Optimization Algorithm (QAOA)
+ hinges critically on the precise initialization of its variational parameters.
+ To address this, we introduce a novel hybrid neural network model, designed
+ to process graph structures and predict the optimal QAOA parameters for
+ a given problem instance.
+ This section offers an in-depth look into the architecture of our proposed
+ model and the methodology adopted for its training.
+\end_layout
+
+\begin_layout Subsection
+Model Architecture
+\end_layout
+
+\begin_layout Standard
+Our hybrid model is meticulously crafted to handle graph structures, ensuring
+ that the inherent relationships between nodes and edges are captured effectivel
+y.
+ The architecture comprises the following stages:
+\end_layout
+
+\begin_layout Enumerate
+Graph Processing Layer: Before feeding the graph into the model, it's essential
+ to represent it in a manner conducive to neural processing.
+ We convert the graph into a sequence of its edges.
+ Each edge, represented as a tuple of its two nodes, is then ready to be
+ processed by the subsequent layers.
+\end_layout
+
+\begin_layout Enumerate
+LSTM Sequence Processing: The edge sequence obtained from the graph is fed
+ into an LSTM layer.
+ Long Short-Term Memory (LSTM) units are adept at handling sequences, capturing
+ both short-term patterns and long-term dependencies.
+ By processing each edge through the LSTM, the model imbibes the sequential
+ and topological information present in the graph, ensuring adaptability
+ to graphs of varying sizes and complexities.
+\end_layout
+
+\begin_layout Enumerate
+CNN Integration: Post the LSTM processing, the output, which now encapsulates
+ the graph's sequential information, is channeled through a Convolutional
+ Neural Network (CNN).
+ The LeNet architecture, known for its prowess in spatial feature extraction,
+ is employed.
+ This CNN layer is crucial for distilling patterns and high-level features
+ from the LSTM output, features that are instrumental for the prediction
+ of QAOA parameters.
+\end_layout
+
+\begin_layout Enumerate
+QAOA Parameter Prediction Layer: The culmination of the model is a fully
+ connected layer tailored to output the predicted QAOA parameters.
+ This dense layer refines the features extracted by the CNN into a set of
+ parameters apt for initializing the QAOA circuit.
+\end_layout
+
+\begin_layout Subsection
+Training the Model
+\end_layout
+
+\begin_layout Standard
+For the model to predict QAOA parameters with precision, a rigorous training
+ regimen is indispensable.
+ 
+\end_layout
+
+\begin_layout Standard
+The training process is as follows:
+\end_layout
+
+\begin_layout Enumerate
+Data Preparation: Historical QAOA optimizations serve as the bedrock of
+ our training data.
+ For each graph, the adjacency matrix is transformed into an edge sequence,
+ which acts as the input.
+ The corresponding optimal QAOA parameters, ascertained from prior QAOA
+ runs, are the labels.
+\end_layout
+
+\begin_layout Enumerate
+Loss Function: The Mean Squared Error (MSE) loss function quantifies the
+ disparity between the model's predicted QAOA parameters and the actual
+ optimal ones.
+ The training's cardinal objective is the minimization of this loss.
+\end_layout
+
+\begin_layout Enumerate
+Optimization Strategy: The Adam optimizer, celebrated for its adaptive learning
+ rate capabilities, is employed to iteratively refine the model's weights
+ during the training epochs.
+\end_layout
+
+\begin_layout Enumerate
+Validation and Testing Protocols: To vouch for the model's robustness and
+ its ability to generalize, our dataset is trifurcated into training, validation
+, and test subsets.
+ While the model learns from the training set, its performance metrics are
+ gauged on the validation set.
+ Post-training, its predictive prowess is assessed on the test set.
+\end_layout
+
+\begin_layout Enumerate
+Hyperparameter Optimization: Critical hyperparameters, including the learning
+ rate, batch size, number of LSTM layers, and CNN filters, undergo a systematic
+ grid search.
+ This ensures that the model operates under the most optimal parameter set,
+ maximizing its predictive accuracy.
+\end_layout
+
+\begin_layout Standard
+In essence, our hybrid model, with its intricate blend of LSTMs and CNNs,
+ offers a pioneering approach to predict initialization parameters for QAOA
+ circuits.
+ By leveraging past QAOA results for training, the model stands as a beacon
+ of promise in significantly accelerating the QAOA process, providing near-optim
+al parameter predictions at the outset.
+\end_layout
+
+\begin_layout Standard
+You can use either Bib\SpecialChar TeX
+:
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+The following bibliography styles are allowed: 
+\family sans
+elsarticle-harv
+\family default
+, 
+\family sans
+elsarticle-num-names
+\family default
+, or 
+\family sans
+elsarticle-num
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "test"
+options "bibtotoc,elsarticle-harv"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
